@@ -149,7 +149,7 @@ const CityWeatherProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       dispatch({ type: "LOADING_DATA" });
       const response = await fetch(
-        `http://api.timezonedb.com/v2.1/get-time-zone?key=ZGIXGBKAX3ER&format=json&by=position&lat=${lat}&lng=${lng}`
+        `https://api.timezonedb.com/v2.1/get-time-zone?key=ZGIXGBKAX3ER&format=json&by=position&lat=${lat}&lng=${lng}`
       );
       if (!response.ok) throw new Error("Cannot get City Response...");
 

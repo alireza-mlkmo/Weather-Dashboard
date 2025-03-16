@@ -23,7 +23,7 @@ const DailyWeather : React.FC<DailyWeatehrProps> = ({
       <div className="flex items-center gap-x-11 mt-3">
         <img
           className="size-11"
-          src={`../../public/images/${weatherIcon}.png`}
+          src={`../../../public/images/${weatherIcon}.png`}
           alt={weatherTitle}
         />
         <h3 className="font-bold text-xl">{temrature}°C</h3>
