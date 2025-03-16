@@ -36,7 +36,7 @@ const HourlyForecastBox: React.FC = () => {
         Hourly Forecast:
       </h2>
       <div className="flex gap-x-2 mt-8">
-        {hourlyData.map((data, index) => (
+        {hourlyData.map((data) => (
           <HourlyWeather data={data} />
         ))}
       </div>
