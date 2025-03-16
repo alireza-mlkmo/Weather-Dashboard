@@ -40,8 +40,8 @@ interface WeatherData {
   timezone: string;
 }
 interface Position {
-  latitude:number;
-  longitude:number
+  latitude: number;
+  longitude: number;
 }
 interface State {
   isLoading: boolean;
@@ -53,7 +53,7 @@ interface State {
 
 type Action =
   | { type: "SET_CITY_NAME"; payload: string }
-  | { type: "SET_POSITION"; payload:Position }
+  | { type: "SET_POSITION"; payload: Position }
   | { type: "LOADING_DATA" }
   | { type: "CITY_DATA_LOADED"; payload: CityData }
   | { type: "WEATHER_DATA_LOADED"; payload: WeatherData }
@@ -62,33 +62,33 @@ type Action =
 const initalState: State = {
   isLoading: false,
   cityName: "",
-  position:undefined,
+  position: undefined,
   cityData: undefined,
   weatherData: undefined,
 };
 
-function reducer(state:State , action:Action): State{
-  switch(action.type){
-    case "SET_CITY_NAME":{
-      return{...state , cityName: action.payload}
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "SET_CITY_NAME": {
+      return { ...state, cityName: action.payload };
     }
-    case "SET_POSITION":{
-      return{...state , position: action.payload , cityName: ""}
+    case "SET_POSITION": {
+      return { ...state, position: action.payload, cityName: "" };
     }
-    case "LOADING_DATA":{
-      return{...state , isLoading: true}
+    case "LOADING_DATA": {
+      return { ...state, isLoading: true };
     }
-    case "CITY_DATA_LOADED":{
-      return{...state , isLoading: false , cityData: action.payload}
+    case "CITY_DATA_LOADED": {
+      return { ...state, isLoading: false, cityData: action.payload };
     }
-    case "WEATHER_DATA_LOADED":{
-      return{...state , isLoading: false , weatherData: action.payload}
+    case "WEATHER_DATA_LOADED": {
+      return { ...state, isLoading: false, weatherData: action.payload };
     }
-    case "LOAD_DATA_ERROR":{
-      return { ...state, isLoading: false};
+    case "LOAD_DATA_ERROR": {
+      return { ...state, isLoading: false };
     }
     default:
-    return state;
+      return state;
   }
 }
 interface CityContextData {
@@ -101,102 +101,99 @@ interface CityContextData {
 
 const CityContext = createContext<CityContextData | undefined>(undefined);
 
-const CityWeatherProvider : React.FC<{children : React.ReactNode}> = ({children}) =>{
-    
-    const [{ cityData, weatherData, isLoading, cityName , position }, dispatch] =
-      useReducer(reducer, initalState);
+const CityWeatherProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [{ cityData, weatherData, isLoading, cityName, position }, dispatch] =
+    useReducer(reducer, initalState);
 
+  useEffect( function (): void{
+    //  get CityData and WeatherData by position
+    if (position && !cityName) {
+      getCity(position.latitude, position.longitude);
+      getWeather(position.latitude, position.longitude);
+    }
+    //  get CityData and WeatherData by position
+    if (cityName) {
+      getLocation();
+    }
+  },
+    [cityName, position]
+  );
 
-      useEffect(
-        function () {
-          async function getLocation(): Promise<void | null> {
-            try {
-              //  This logic is for if we get users position by lat and lng we should not connect to this api
-              if (position && !cityName) {
-                getCity(position.latitude, position.longitude);
-                getWeather(position.latitude, position.longitude);
-                return null;
-              }
+  async function getLocation(): Promise<void> {
+    try {
+      dispatch({ type: "LOADING_DATA" });
 
-              if (!cityName) return null;
-
-              dispatch({ type: "LOADING_DATA" });
-
-              const response = await fetch(
-                `http://api.geonames.org/searchJSON?q=${cityName}&maxRows=1&username=demov`
-              );
-
-              if (!response.ok) throw new Error("Cannot get City Response...");
-              const data = await response.json();
-
-              if (data) {
-                const lat = data.geonames[0].lat;
-                const lng = data.geonames[0].lng;
-                getCity(lat, lng);
-                getWeather(lat, lng);
-              }
-            } catch (error) {
-              console.error("Error:" + error);
-            } finally {
-              dispatch({ type: "LOAD_DATA_ERROR" });
-            }
-          }
-          getLocation();
-        },
-        [cityName, position]
+      const response = await fetch(
+        `http://api.geonames.org/searchJSON?q=${cityName}&maxRows=1&username=demov`
       );
 
+      if (!response.ok) throw new Error("Cannot get City Response...");
+      const data = await response.json();
 
-    async function getCity(lat:number  , lng:number) : Promise<void>{      
-      try {
-        dispatch({ type: "LOADING_DATA" });
-        const response = await fetch(
-          `http://api.timezonedb.com/v2.1/get-time-zone?key=ZGIXGBKAX3ER&format=json&by=position&lat=${lat}&lng=${lng}`
-        );
-        if (!response.ok) throw new Error("Cannot get City Response...");
-
-        const data = await response.json();
-        
-        if(data) dispatch({ type: "CITY_DATA_LOADED", payload: data });
-
-      } catch (error) {
-        console.error(error);
-        dispatch({ type: "LOAD_DATA_ERROR" });
+      if (data) {
+        const lat = data.geonames[0].lat;
+        const lng = data.geonames[0].lng;
+        getCity(lat, lng);
+        getWeather(lat, lng);
       }
+    } catch (error) {
+      console.error("Error:" + error);
+    } finally {
+      dispatch({ type: "LOAD_DATA_ERROR" });
     }
+  }
 
-    async function getWeather(lat:number , lng:number) : Promise<void>{
-      try {
-        dispatch({ type: "LOADING_DATA" });
-        const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=uv_index,temperature_2m,relativehumidity_2m,pressure_msl,windspeed_10m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`
-        );
-        if (!response.ok) throw new Error("Cannot get Weather Response...");
+  async function getCity(lat: number, lng: number): Promise<void> {
+    try {
+      dispatch({ type: "LOADING_DATA" });
+      const response = await fetch(
+        `http://api.timezonedb.com/v2.1/get-time-zone?key=ZGIXGBKAX3ER&format=json&by=position&lat=${lat}&lng=${lng}`
+      );
+      if (!response.ok) throw new Error("Cannot get City Response...");
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (data) dispatch({ type: "WEATHER_DATA_LOADED", payload: data });
-        
-      } catch (error) {
-        console.error(error);
-        dispatch({ type: "LOAD_DATA_ERROR" });
-      }
+      if (data) dispatch({ type: "CITY_DATA_LOADED", payload: data });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: "LOAD_DATA_ERROR" });
     }
+  }
 
+  async function getWeather(lat: number, lng: number): Promise<void> {
+    try {
+      dispatch({ type: "LOADING_DATA" });
+      const response = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=uv_index,temperature_2m,relativehumidity_2m,pressure_msl,windspeed_10m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`
+      );
+      if (!response.ok) throw new Error("Cannot get Weather Response...");
 
-    return(
-      <CityContext.Provider value={{cityData , weatherData , isLoading , cityName , dispatch}}>
-          {children}
-      </CityContext.Provider>
-    )
-}
+      const data = await response.json();
 
-const useCityWeather = () =>{
-    const context = useContext(CityContext);
+      if (data) dispatch({ type: "WEATHER_DATA_LOADED", payload: data });
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: "LOAD_DATA_ERROR" });
+    }
+  }
+
+  return (
+    <CityContext.Provider
+      value={{ cityData, weatherData, isLoading, cityName, dispatch }}
+    >
+      {children}
+    </CityContext.Provider>
+  );
+};
+
+const useCityWeather = () => {
+  const context = useContext(CityContext);
   if (!context) {
     throw new Error("useCity must be used within a CityProvider");
   }
   return context;
-}
+};
 
 export { useCityWeather, CityWeatherProvider };
