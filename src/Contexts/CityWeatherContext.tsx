@@ -126,7 +126,7 @@ const CityWeatherProvider: React.FC<{ children: React.ReactNode }> = ({
       dispatch({ type: "LOADING_DATA" });
 
       const response = await fetch(
-        `http://api.geonames.org/searchJSON?q=${cityName}&maxRows=1&username=demov`
+        `https://secure.geonames.org/searchJSON?q=${cityName}&maxRows=1&username=demov`
       );
 
       if (!response.ok) throw new Error("Cannot get City Response...");
