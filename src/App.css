@@ -7,6 +7,19 @@
 }
 
 @utility container{
-    padding-inline: 80px;
+    padding-inline: 15px;
     margin-inline: auto;
+
+    @variant md{
+        padding-inline: 0px;
+    }
+    @variant lg{
+        padding-inline: 40px;
+    }
+    @variant xl{
+        padding-inline: 0px;
+    }
+    @variant 2xl{
+        padding-inline: 40px;
+    }
 }

@@ -31,17 +31,17 @@ const HourlyWeather: React.FC<HourlyWeatherProps> = ({ data }) => {
         isNight === true
           ? "bg-linear-to-t from-gray-200 to-gray-500"
           : "bg-linear-to-t from-orange-200 to-orange-400"
-      } flex flex-col items-center w-min px-7 py-2 space-y-2 font-bold rounded-2xl text-center`}
+      } flex md:flex-col justify-between items-center mt-4 md:mt-0 w-full md:w-min px-4 md:px-7 py-2 space-y-2 font-bold rounded-2xl text-center`}
     >
-      <h2 className="dark:text-white text-xl">{timeFormatted}</h2>
+      <h2 className="dark:text-white text-lg md:text-xl">{timeFormatted}</h2>
       <img
-        className="size-12"
+        className=" size-12"
         src={`/static/images/${weatherIcon}.png`}
         alt={weatherTitle}
       />
       <h2 className="dark:text-white text-lg">{Math.trunc(temperature)}°C</h2>
-      <BsCursorFill className="size-11 text-blue-400 -rotate-45" />
-      <h2 className="text-lg">{windSpeed}km/h</h2>
+      <BsCursorFill className=" size-11 text-blue-400 md:-rotate-45" />
+      <h2 className=" text-lg">{windSpeed}km/h</h2>
     </div>
   );
 };

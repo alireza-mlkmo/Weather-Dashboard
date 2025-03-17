@@ -11,7 +11,7 @@ const SearchInput: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center gap-x-2 px-4 rounded-3xl bg-primary dark:bg-zinc-500 shadow-2xl w-1/2">
+    <div className="flex items-center gap-x-2 px-4 rounded-3xl bg-primary dark:bg-zinc-500 shadow-2xl w-3/4 md:w-1/2">
       <GoSearch
         onClick={handleClickSearch}
         className="w-7 h-7 text-zinc-700 dark:text-gray-300 cursor-pointer"

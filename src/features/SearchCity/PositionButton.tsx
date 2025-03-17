@@ -19,7 +19,7 @@ const PositionButton: React.FC = () => {
   return (
     <button
       onClick={handleClickButton}
-      className="flex items-center gap-2 p-3 bg-green-600 rounded-4xl cursor-pointer shadow-2xl"
+      className="flex items-center justify-center gap-2 p-3 mt-6 md:mt-0 w-full md:w-auto bg-green-600 rounded-4xl cursor-pointer shadow-2xl"
     >
       <GrLocation className="size-5 text-zinc-800" />
       <span className="font-bold text-gray-300">Current Location</span>

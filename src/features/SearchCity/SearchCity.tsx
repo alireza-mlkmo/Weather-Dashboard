@@ -5,7 +5,7 @@ import ToggleTheme from "../../ui/ToggleTheme";
 const SearchCity : React.FC = () => {
 
     return (
-      <div className="flex items-center justify-between pt-10">
+      <div className="flex flex-wrap items-center justify-between pt-10">
         <ToggleTheme />
         <SearchInput />
         <PositionButton />

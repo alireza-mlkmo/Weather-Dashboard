@@ -31,11 +31,11 @@ const HourlyForecastBox: React.FC = () => {
   }));
 
   return (
-    <div className="px-20 pt-2 w-max bg-primary dark:bg-zinc-500 shadow-2xl rounded-3xl">
+    <div className="px-4 lg:px-20 pt-2 mt-4 lg:mt-0 w-max  bg-primary dark:bg-zinc-500 shadow-2xl rounded-3xl">
       <h2 className="text-2xl text-center font-bold dark:text-white">
         Hourly Forecast:
       </h2>
-      <div className="flex gap-x-2 mt-8">
+      <div className="flex flex-wrap lg:flex-nowrap gap-x-1 md:gap-x-2 mt-5 md:mt-8">
         {hourlyData.map((data) => (
           <HourlyWeather data={data} />
         ))}

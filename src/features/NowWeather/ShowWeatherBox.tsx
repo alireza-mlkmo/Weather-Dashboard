@@ -47,10 +47,10 @@ const ShowWeatherBox: React.FC = () => {
   );
 
   return (
-    <div className="flex gap-x-10 p-6 w-max bg-primary dark:bg-zinc-500 shadow-2xl rounded-3xl">
+    <div className="flex  gap-x-8 md:gap-x-10 p-4 sm:w-full lg:w-max mt-12 xl:mt-0 bg-primary dark:bg-zinc-500 shadow-2xl rounded-3xl">
       {/* Degree & Sunrise and Sunset */}
       <div className="flex flex-col justify-between items-center h-full">
-        <h1 className="font-bold text-6xl dark:text-white/90">
+        <h1 className="font-bold text-5xl md:text-6xl dark:text-white/90">
           {temprature}°C
         </h1>
         <div>
@@ -75,7 +75,7 @@ const ShowWeatherBox: React.FC = () => {
       {/*Weather Image */}
       <div className="flex flex-col justify-between items-center">
         <img
-          className="size-48"
+          className="size-38 md:size-48"
           src={`/static/images/${weatherIcon}.png`}
           alt={weatherTitle}
         />
