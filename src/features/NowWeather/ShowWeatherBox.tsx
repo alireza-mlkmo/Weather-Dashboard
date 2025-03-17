@@ -63,7 +63,7 @@ const ShowWeatherBox: React.FC = () => {
       {/*Weather Image */}
       <div className="flex flex-col justify-between items-center">
         <img className="size-48"
-          src={`/public/images/${weatherIcon}.png`}
+          src={`/public/static/images/${weatherIcon}.png`}
           alt={weatherTitle}
         />
         <h1 className="font-bold text-3xl dark:text-white/90">

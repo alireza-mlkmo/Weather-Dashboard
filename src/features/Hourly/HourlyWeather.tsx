@@ -36,7 +36,7 @@ const HourlyWeather: React.FC<HourlyWeatherProps> = ({ data }) => {
       <h2 className="dark:text-white text-xl">{timeFormatted}</h2>
       <img
         className="size-12"
-        src={`/public/images/${weatherIcon}.png`}
+        src={`/public/static/images/${weatherIcon}.png`}
         alt={weatherTitle}
       />
       <h2 className="dark:text-white text-lg">{Math.trunc(temperature)}°C</h2>
