@@ -7,18 +7,28 @@ import IoHumidityWhite from "../../Icons/IoHumidityWhite";
 import IoWindSpeedWhite from "../../Icons/IoWindSpeedWhite";
 import IoUv from "../../Icons/IoUv";
 import IoUvWhite from "../../Icons/IoUvWhite";
-import { calculateWeather, formatTime, getWeatherIcon } from "../../utils/helpers";
+import {
+  calculateWeather,
+  formatTime,
+  getWeatherIcon,
+} from "../../utils/helpers";
 import { useCityWeather } from "../../Contexts/CityWeatherContext";
 
 const ShowWeatherBox: React.FC = () => {
   const { theme } = useTheme();
   const { weatherData } = useCityWeather();
-  
+
   if (!weatherData) return <p>no data</p>;
-  
+
   const { daily, hourly } = weatherData;
 
-  const { sunrise, sunset, temperature_2m_max, temperature_2m_min , weathercode } = daily;
+  const {
+    sunrise,
+    sunset,
+    temperature_2m_max,
+    temperature_2m_min,
+    weathercode,
+  } = daily;
   const { pressure_msl, windspeed_10m, uv_index, relativehumidity_2m } = hourly;
 
   const windSpeed = calculateWeather(windspeed_10m);
@@ -32,7 +42,9 @@ const ShowWeatherBox: React.FC = () => {
   const sunriseTime = formatTime(sunrise[0]);
   const sunsetTime = formatTime(sunset[0]);
 
-  const { icon: weatherIcon, condition: weatherTitle } = getWeatherIcon(weathercode[0]);
+  const { icon: weatherIcon, condition: weatherTitle } = getWeatherIcon(
+    weathercode[0]
+  );
 
   return (
     <div className="flex gap-x-10 p-6 w-max bg-primary dark:bg-zinc-500 shadow-2xl rounded-3xl">
@@ -62,8 +74,9 @@ const ShowWeatherBox: React.FC = () => {
       </div>
       {/*Weather Image */}
       <div className="flex flex-col justify-between items-center">
-        <img className="size-48"
-          src={`/public/static/images/${weatherIcon}.png`}
+        <img
+          className="size-48"
+          src={`/static/images/${weatherIcon}.png`}
           alt={weatherTitle}
         />
         <h1 className="font-bold text-3xl dark:text-white/90">
